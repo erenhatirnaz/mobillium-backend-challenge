@@ -23,4 +23,12 @@ class RolesTest extends TestCase
         $this->assertEquals(Roles::MODERATOR, $moderatorId);
         $this->assertEquals(Roles::ADMIN, $adminId);
     }
+
+    public function testGetRoleFromStringMethodShouldReturnRoleId()
+    {
+        $this->assertEquals(1, Roles::getRoleFromString('reader'));
+        $this->assertEquals(2, Roles::getRoleFromString('writer'));
+        $this->assertEquals(3, Roles::getRoleFromString('moderator'));
+        $this->assertEquals(4, Roles::getRoleFromString('admin'));
+    }
 }
