@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Role;
+use App\Enums\Roles;
 
 class User extends Authenticatable
 {
@@ -46,5 +47,27 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function hasRoles($roles)
+    {
+        if (gettype($roles) != "array") {
+            $roles = [$roles];
+        }
+
+        $results = array();
+        foreach ($roles as $role) {
+            if (gettype($role) == "string") {
+                $role = Roles::getRoleFromString($role);
+            }
+
+            if ($this->roles->find($role)) {
+                array_push($results, true);
+            } else {
+                array_push($results, false);
+            }
+        }
+
+        return !(in_array(false, $results));
     }
 }
