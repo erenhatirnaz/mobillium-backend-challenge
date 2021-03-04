@@ -34,4 +34,22 @@ class ArticleFactory extends Factory
             'published_at' => Carbon::now(),
         ];
     }
+
+    public function draft()
+    {
+        return $this->state(function ($attributes) {
+            return [
+                'published_at' => null,
+            ];
+        });
+    }
+
+    public function scheduled()
+    {
+        return $this->state(function ($attributes) {
+            return [
+                'published_at' => Carbon::now()->addDays(4),
+            ];
+        });
+    }
 }
