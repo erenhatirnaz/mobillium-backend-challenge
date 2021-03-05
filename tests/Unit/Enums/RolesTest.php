@@ -11,24 +11,11 @@ class RolesTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function testEnumValuesShouldMatchRoleIdsOnDd()
-    {
-        $readerId = Role::firstWhere('name', 'reader')->id;
-        $writerId = Role::firstWhere('name', 'writer')->id;
-        $moderatorId = Role::firstWhere('name', 'moderator')->id;
-        $adminId = Role::firstWhere('name', 'admin')->id;
-
-        $this->assertEquals(Roles::READER, $readerId);
-        $this->assertEquals(Roles::WRITER, $writerId);
-        $this->assertEquals(Roles::MODERATOR, $moderatorId);
-        $this->assertEquals(Roles::ADMIN, $adminId);
-    }
-
     public function testGetEnumFromStringMethodShouldReturnRoleId()
     {
-        $this->assertEquals(1, Roles::getEnumFromString('reader'));
-        $this->assertEquals(2, Roles::getEnumFromString('writer'));
-        $this->assertEquals(3, Roles::getEnumFromString('moderator'));
-        $this->assertEquals(4, Roles::getEnumFromString('admin'));
+        $this->assertEquals("READER", Roles::getEnumFromString('reader'));
+        $this->assertEquals("WRITER", Roles::getEnumFromString('writer'));
+        $this->assertEquals("MODERATOR", Roles::getEnumFromString('moderator'));
+        $this->assertEquals("ADMIN", Roles::getEnumFromString('admin'));
     }
 }

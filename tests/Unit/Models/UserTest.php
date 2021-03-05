@@ -11,19 +11,24 @@ class UserTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function testHasRoleMethodShouldReturnTrueIfUserHasAnyGivenRoles()
+    public function testHasRoleMethodShouldReturnTrueIfUserHasGivenRole()
     {
-        $user1 = User::factory()->create();
-        $user1->roles()->attach(Roles::WRITER);
+        $reader1 = User::factory()->create();
+        $writer1 = User::factory()->writer()->create();
+        $moderator1 = User::factory()->moderator()->create();
+        $admin1 = User::factory()->admin()->create();
 
-        $this->assertTrue($user1->hasRoles([Roles::READER, "writer"]));
+        $this->assertTrue($reader1->hasRole(Roles::READER));
+        $this->assertTrue($writer1->hasRole("writer"));
+        $this->assertTrue($moderator1->hasRole(Roles::MODERATOR));
+        $this->assertTrue($admin1->hasRole("admin"));
     }
 
-    public function testHasRoleMethodShouldReturnFalseIfUserHasntAnyGivenRoles()
+    public function testHasRoleMethodShouldReturnFalseIfUserHasntGivenRole()
     {
-        $user1 = User::factory()->create();
+        $reader1 = User::factory()->create();
 
-        $this->assertFalse($user1->hasRoles(["reader", Roles::ADMIN]));
-        $this->assertFalse($user1->hasRoles("moderator"));
+        $this->assertFalse($reader1->hasRole(Roles::WRITER));
+        $this->assertFalse($reader1->hasRole("admin"));
     }
 }

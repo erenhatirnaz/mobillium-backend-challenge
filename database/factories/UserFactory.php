@@ -29,14 +29,8 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'role' => 'READER'
         ];
-    }
-
-    public function configure()
-    {
-        return $this->afterCreating(function (User $user) {
-            $user->roles()->attach(Roles::READER); // add reader as default role to all users
-        });
     }
 
     /**
@@ -49,6 +43,33 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'email_verified_at' => null,
+            ];
+        });
+    }
+
+    public function writer()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => Roles::WRITER,
+            ];
+        });
+    }
+
+    public function moderator()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => Roles::MODERATOR,
+            ];
+        });
+    }
+
+    public function admin()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => Roles::ADMIN,
             ];
         });
     }

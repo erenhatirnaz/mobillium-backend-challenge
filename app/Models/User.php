@@ -49,30 +49,12 @@ class User extends Authenticatable
         return $this->hasMany(Article::class);
     }
 
-    public function roles()
+    public function hasRole($role)
     {
-        return $this->belongsToMany(Role::class);
-    }
-
-    public function hasRoles($roles)
-    {
-        if (gettype($roles) != "array") {
-            $roles = [$roles];
+        if (gettype($role) == "string") {
+            $role = Roles::getEnumFromString($role);
         }
 
-        $results = array();
-        foreach ($roles as $role) {
-            if (gettype($role) == "string") {
-                $role = Roles::getEnumFromString($role);
-            }
-
-            if ($this->roles->find($role)) {
-                array_push($results, true);
-            } else {
-                array_push($results, false);
-            }
-        }
-
-        return !(in_array(false, $results));
+        return ($this->role === $role);
     }
 }
