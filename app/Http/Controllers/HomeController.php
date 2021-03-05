@@ -9,7 +9,16 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $posts = Article::published()->orderBy('created_at', 'desc')->get();
+        // In order for articles to be cached, they had to be made into a single query in this way.
+        $posts = Article::select(
+            'users.full_name as author_full_name',
+            'articles.slug',
+            'articles.title',
+            'articles.content',
+            'articles.published_at',
+        )->join('users', 'articles.user_id', '=', 'users.id')
+         ->published()
+         ->get();
 
         return view('home', [
             'posts' => $posts

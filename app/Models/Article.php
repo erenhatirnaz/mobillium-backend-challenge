@@ -5,12 +5,14 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
+use App\Enums\ArticleStatus;
 use Illuminate\Database\Eloquent\Model;
+use Whtht\PerfectlyCache\Traits\PerfectlyCachable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Article extends Model
 {
-    use HasFactory;
+    use HasFactory, PerfectlyCachable;
 
     protected $fillable = [
         'slug',
@@ -40,6 +42,7 @@ class Article extends Model
 
     public function scopePublished($query)
     {
-        return $query->where('published_at', '<=', Carbon::now());
+        return $query->where('status', ArticleStatus::PUBLISHED)
+                     ->orderBy('published_at', 'DESC');
     }
 }
