@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/login', function () {
+    return response("501 Not Implemented!", 501);
+})->name('login');
+
+Route::get('/register', function () {
+    return response("501 Not Implemented!", 501);
+})->name('register');
