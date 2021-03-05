@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
@@ -38,5 +39,20 @@ class Article extends Model
         } else {
             return "SCHEDULED";
         }
+    }
+
+    public function getContentSummaryAttribute()
+    {
+        return Str::of($this->content)->explode('<br/><br/>')[0];
+    }
+
+    public function getLinkAttribute()
+    {
+        return route('article.show', ['slug' => $this->slug]);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('published_at', '<=', Carbon::now());
     }
 }

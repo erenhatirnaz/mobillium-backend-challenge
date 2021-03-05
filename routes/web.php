@@ -23,3 +23,7 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return response("501 Not Implemented!", 501);
 })->name('register');
+
+Route::get('/article/{slug}', function () {
+    return response("501 Not Implemented!", 501);
+})->name('article.show');
