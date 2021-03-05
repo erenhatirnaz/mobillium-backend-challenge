@@ -24,11 +24,11 @@ class RolesTest extends TestCase
         $this->assertEquals(Roles::ADMIN, $adminId);
     }
 
-    public function testGetRoleFromStringMethodShouldReturnRoleId()
+    public function testGetEnumFromStringMethodShouldReturnRoleId()
     {
-        $this->assertEquals(1, Roles::getRoleFromString('reader'));
-        $this->assertEquals(2, Roles::getRoleFromString('writer'));
-        $this->assertEquals(3, Roles::getRoleFromString('moderator'));
-        $this->assertEquals(4, Roles::getRoleFromString('admin'));
+        $this->assertEquals(1, Roles::getEnumFromString('reader'));
+        $this->assertEquals(2, Roles::getEnumFromString('writer'));
+        $this->assertEquals(3, Roles::getEnumFromString('moderator'));
+        $this->assertEquals(4, Roles::getEnumFromString('admin'));
     }
 }

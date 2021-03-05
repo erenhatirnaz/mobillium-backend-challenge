@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use App\Enums\Roles;
+use App\Models\Role;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
-use App\Models\Role;
-use App\Enums\Roles;
 
 class User extends Authenticatable
 {
@@ -63,7 +63,7 @@ class User extends Authenticatable
         $results = array();
         foreach ($roles as $role) {
             if (gettype($role) == "string") {
-                $role = Roles::getRoleFromString($role);
+                $role = Roles::getEnumFromString($role);
             }
 
             if ($this->roles->find($role)) {

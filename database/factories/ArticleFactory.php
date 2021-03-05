@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Article;
 use Illuminate\Support\Str;
+use App\Enums\ArticleStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ArticleFactory extends Factory
@@ -32,6 +33,7 @@ class ArticleFactory extends Factory
             'title' => $title,
             'content' => implode("<br/><br/>", $this->faker->paragraphs),
             'published_at' => Carbon::now(),
+            'status' => ArticleStatus::PUBLISHED,
         ];
     }
 
@@ -40,6 +42,7 @@ class ArticleFactory extends Factory
         return $this->state(function ($attributes) {
             return [
                 'published_at' => null,
+                'status' => ArticleStatus::DRAFT,
             ];
         });
     }
@@ -49,6 +52,7 @@ class ArticleFactory extends Factory
         return $this->state(function ($attributes) {
             return [
                 'published_at' => Carbon::now()->addDays(4),
+                'status' => ArticleStatus::SCHEDULED,
             ];
         });
     }
