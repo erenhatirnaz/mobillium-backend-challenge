@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Roles;
 use App\Models\Role;
+use App\Models\Vote;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -47,6 +48,11 @@ class User extends Authenticatable
     public function articles()
     {
         return $this->hasMany(Article::class);
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
     }
 
     public function hasRole($role)

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Support\Str;
 use App\Enums\ArticleStatus;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +29,11 @@ class Article extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
     }
 
     public function getContentSummaryAttribute()
