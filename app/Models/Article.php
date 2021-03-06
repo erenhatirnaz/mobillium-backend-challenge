@@ -26,6 +26,10 @@ class Article extends Model
         'published_at' => 'datetime',
     ];
 
+    protected $with = [
+        'votes',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -33,7 +37,7 @@ class Article extends Model
 
     public function votes()
     {
-        return $this->hasMany(Vote::class);
+        return $this->hasMany(Vote::class)->orderBy('created_at', 'DESC');
     }
 
     public function getContentSummaryAttribute()
@@ -44,6 +48,26 @@ class Article extends Model
     public function getLinkAttribute()
     {
         return route('article.show', ['slug' => $this->slug]);
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        $votes = $this->votes;
+
+        $totalVoteCount = $votes->count();
+        if ($totalVoteCount == 0) {
+            return 'Not voted yet!';
+        }
+
+        $percent30 = round($totalVoteCount * 0.3);
+        $percent70 = $totalVoteCount - $percent30;
+
+        $moreEffectiveVotesTotal = $votes->take($percent30)->pluck('rating')->sum() * 2;
+        $lessEffectiveVotesTotal = $votes->take($percent70 * -1)->pluck('rating')->sum();
+
+        $total = ($moreEffectiveVotesTotal + $lessEffectiveVotesTotal) / ($totalVoteCount + $percent30);
+
+        return round($total, 1);
     }
 
     public function scopePublished($query)

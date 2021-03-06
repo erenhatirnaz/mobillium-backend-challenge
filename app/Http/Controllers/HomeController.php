@@ -12,6 +12,7 @@ class HomeController extends Controller
         // In order for articles to be cached, they had to be made into a single query in this way.
         $posts = Article::select(
             'users.full_name as author_full_name',
+            'articles.id',
             'articles.slug',
             'articles.title',
             'articles.content',
