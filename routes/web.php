@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\VoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Auth::routes();
 
 Route::get('/article/{slug}', [ArticleController::class, 'show'])->name('article.show');
+
+Route::name('vote.')->middleware(['auth'])->group(function () {
+    Route::post('/vote', [VoteController::class, 'add'])->name('add');
+    Route::delete('/vote/delete', [VoteController::class, 'delete'])->name('delete');
+});
 
 Route::name('writer.')->middleware(['role:writer'])->group(function () {
     Route::get('/writer', function () {

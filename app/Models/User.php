@@ -63,4 +63,11 @@ class User extends Authenticatable
 
         return ($this->role === $role);
     }
+
+    public function hasVote($articleId)
+    {
+        $vote = $this->votes->where('article_id', $articleId)->first();
+
+        return ($vote) ? $vote : null;
+    }
 }
