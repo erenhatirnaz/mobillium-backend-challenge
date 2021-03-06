@@ -22,21 +22,44 @@ Auth::routes();
 
 Route::get('/article/{slug}', [ArticleController::class, 'show'])->name('article.show');
 
+Route::name('article.')->middleware('auth')->group(function () {
+    Route::get('/article/create', function () {
+        return response("501 Not Implemented!", 501);
+    })->name('createPage');
+    Route::post('/article/create', function () {
+        return response("501 Not Implemented!", 501);
+    })->name('create');
+
+    Route::get('/article/{id}/edit', function () {
+        return response("501 Not Implemented!", 501);
+    })->name('editPage');
+    Route::put('/article/{id}/edit', function () {
+        return response("501 Not Implemented!", 501);
+    })->name('edit');
+
+    Route::put('/article/{id}/publish', function () {
+        return response("501 Not Implemented!", 501);
+    })->name('publish');
+    Route::put('/article/{id}/unpublish', function () {
+        return response("501 Not Implemented!", 501);
+    })->name('unpublish');
+
+    Route::delete('/article/{id}/delete', function () {
+        return response("501 Not Implemented!", 501);
+    })->name('delete');
+});
+
 Route::name('vote.')->middleware(['auth'])->group(function () {
     Route::post('/vote', [VoteController::class, 'add'])->name('add');
     Route::delete('/vote/delete', [VoteController::class, 'delete'])->name('delete');
 });
 
 Route::name('writer.')->middleware(['role:writer'])->group(function () {
-    Route::get('/writer', function () {
-        return response("501 Not Implemented!", 501);
-    })->name('dashboard');
+    Route::get('/writer', [ArticleController::class, 'list'])->name('dashboard');
 });
 
 Route::name('admin.')->middleware(['role:admin'])->group(function () {
-    Route::get('/admin', function () {
-        return response("501 Not Implemented!", 501);
-    })->name('dashboard');
+    Route::get('/admin', [ArticleController::class, 'list'])->name('dashboard');
 });
 
 Route::name('moderator.')->middleware(['role:moderator'])->group(function () {

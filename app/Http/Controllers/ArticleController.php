@@ -13,4 +13,17 @@ class ArticleController extends Controller
 
         return view('article.view', compact('article'));
     }
+
+    public function list(Request $request)
+    {
+        if ($request->user()->can('viewAny', Article::class)) {
+            $articles = Article::orderBy('updated_at', 'DESC')->get();
+            $panelName = "Admin Panel";
+        } else {
+            $articles = $request->user()->articles;
+            $panelName = "Writer Panel";
+        }
+
+        return view('article.list', compact('articles', 'panelName'));
+    }
 }

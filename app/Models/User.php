@@ -47,7 +47,7 @@ class User extends Authenticatable
 
     public function articles()
     {
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Article::class)->orderBy('updated_at', 'DESC');
     }
 
     public function votes()
