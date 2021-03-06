@@ -14,16 +14,28 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/login', function () {
-    return response("501 Not Implemented!", 501);
-})->name('login');
-
-Route::get('/register', function () {
-    return response("501 Not Implemented!", 501);
-})->name('register');
+Auth::routes();
 
 Route::get('/article/{slug}', function () {
     return response("501 Not Implemented!", 501);
 })->name('article.show');
+
+Route::name('writer.')->group(function () {
+    Route::get('/writer', function () {
+        return response("501 Not Implemented!", 501);
+    })->name('dashboard');
+});
+
+Route::name('admin.')->group(function () {
+    Route::get('/admin', function () {
+        return response("501 Not Implemented!", 501);
+    })->name('dashboard');
+});
+
+Route::name('moderator.')->group(function () {
+    Route::get('/moderator', function () {
+        return response("501 Not Implemented!", 501);
+    })->name('dashboard');
+});
