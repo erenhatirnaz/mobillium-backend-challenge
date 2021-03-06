@@ -22,19 +22,19 @@ Route::get('/article/{slug}', function () {
     return response("501 Not Implemented!", 501);
 })->name('article.show');
 
-Route::name('writer.')->group(function () {
+Route::name('writer.')->middleware(['role:writer'])->group(function () {
     Route::get('/writer', function () {
         return response("501 Not Implemented!", 501);
     })->name('dashboard');
 });
 
-Route::name('admin.')->group(function () {
+Route::name('admin.')->middleware(['role:admin'])->group(function () {
     Route::get('/admin', function () {
         return response("501 Not Implemented!", 501);
     })->name('dashboard');
 });
 
-Route::name('moderator.')->group(function () {
+Route::name('moderator.')->middleware(['role:moderator'])->group(function () {
     Route::get('/moderator', function () {
         return response("501 Not Implemented!", 501);
     })->name('dashboard');
