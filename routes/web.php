@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/article/{slug}', function () {
-    return response("501 Not Implemented!", 501);
-})->name('article.show');
+Route::get('/article/{slug}', [ArticleController::class, 'show'])->name('article.show');
 
 Route::name('writer.')->middleware(['role:writer'])->group(function () {
     Route::get('/writer', function () {

@@ -50,6 +50,22 @@ class Article extends Model
         return route('article.show', ['slug' => $this->slug]);
     }
 
+    public function getNextArticleLinkAttribute()
+    {
+        $nextArticle = self::without('votes')->where('published_at', '>', $this->published_at)
+                                             ->orderBy('published_At')->get()->first();
+
+        return ($nextArticle) ? $nextArticle->link : null;
+    }
+
+    public function getPreviousArticleLinkAttribute()
+    {
+        $previousArticle = self::without('votes')->where('published_at', '<', $this->published_at)
+                                                 ->orderBy('published_At', 'DESC')->get()->first();
+
+        return ($previousArticle) ? $previousArticle->link : null;
+    }
+
     public function getAverageRatingAttribute()
     {
         $votes = $this->votes;
