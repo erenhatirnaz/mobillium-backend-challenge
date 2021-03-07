@@ -107,4 +107,9 @@ class Article extends Model
         return $query->where('status', ArticleStatus::PUBLISHED)
                      ->orderBy('published_at', 'DESC');
     }
+
+    public function scopeScheduled($query)
+    {
+        return $query->where('status', ArticleStatus::SCHEDULED);
+    }
 }
