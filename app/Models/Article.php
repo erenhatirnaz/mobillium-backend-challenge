@@ -52,16 +52,18 @@ class Article extends Model
 
     public function getNextArticleLinkAttribute()
     {
-        $nextArticle = self::without('votes')->where('published_at', '>', $this->published_at)
-                                             ->orderBy('published_At')->get()->first();
+        $nextArticle = self::without(['votes', 'user'])->where('status', ArticleStatus::PUBLISHED)
+                                                       ->where('published_at', '>', $this->published_at)
+                                                       ->orderBy('published_At')->get()->first();
 
         return ($nextArticle) ? $nextArticle->link : null;
     }
 
     public function getPreviousArticleLinkAttribute()
     {
-        $previousArticle = self::without('votes')->where('published_at', '<', $this->published_at)
-                                                 ->orderBy('published_At', 'DESC')->get()->first();
+        $previousArticle = self::without(['votes', 'user'])->where('status', ArticleStatus::PUBLISHED)
+                                                           ->where('published_at', '<', $this->published_at)
+                                                           ->orderBy('published_At', 'DESC')->get()->first();
 
         return ($previousArticle) ? $previousArticle->link : null;
     }
