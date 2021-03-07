@@ -6,7 +6,10 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card mb-3">
-                <div class="card-header">{{ $article->title }}</div>
+                <div class="card-header">
+                    <h2>{{ $article->title }}</h2>
+                    Author: {{ $article->user->full_name }}
+                </div>
                 <div class="card-body">
                     <p class="text-muted">
                         Published at {{ $article->published_at->diffForHumans() }}
