@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <form method="POST" action="@if (!isset($article)) {{ route('article.create') }} @else {{ route('article.edit') }} @endif">
+            <form method="POST" action="@if (!isset($article)) {{ route('article.create') }} @else {{ route('article.edit', ['id' => $article->id]) }} @endif">
                 @csrf
                 @if (isset($article)) @method("PUT") @endif
                 <div class="form-group">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="form-group">
                     <label for="content">Content</label>
-                    <textarea class="form-control" required id="content" name="content" rows="15" value="@if (!isset($article)){{ old('content') }}@else {{ $article->content }} @endif"></textarea>
+                    <textarea class="form-control" required id="content" name="content" rows="15">@if (!isset($article)){{ old('content') }}@else{{ $article->content }}@endif</textarea>
                 </div>
                 @if (!isset($article))
                 <div class="form-group">

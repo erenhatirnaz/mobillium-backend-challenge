@@ -68,4 +68,32 @@ class ArticleController extends Controller
 
         return redirect()->route($request->user()->panelDashboardRouteName());
     }
+
+    public function editPage(int $id, Request $request)
+    {
+        $article = Article::findOrFail($id);
+        $this->authorize('update', $article);
+
+        return view('article.create', compact('article'));
+    }
+
+    public function edit(int $id, Request $request)
+    {
+        $article = Article::findOrFail($id);
+        $this->authorize('update', $article);
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response("400 Bad Request!", 400);
+        }
+
+        $article->title = $request->input('title');
+        $article->content = $request->input('content');
+        $article->save();
+
+        return redirect()->route($request->user()->panelDashboardRouteName());
+    }
 }

@@ -26,12 +26,8 @@ Route::name('article.')->middleware('auth')->group(function () {
     Route::get('/articles/create', [ArticleController::class, 'createPage'])->name('createPage');
     Route::post('/articles/create', [ArticleController::class, 'create'])->name('create');
 
-    Route::get('/articles/{id}/edit', function () {
-        return response("501 Not Implemented!", 501);
-    })->name('editPage');
-    Route::put('/articles/{id}/edit', function () {
-        return response("501 Not Implemented!", 501);
-    })->name('edit');
+    Route::get('/articles/{id}/edit', [ArticleController::class, 'editPage'])->name('editPage');
+    Route::put('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('edit');
 
     Route::put('/article/{id}/publish', function () {
         return response("501 Not Implemented!", 501);

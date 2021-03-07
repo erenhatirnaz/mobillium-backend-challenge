@@ -51,7 +51,7 @@
                 </td>
                 <td class="d-flex justify-content-end">
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="#" class="btn btn-info">Edit</a>
+                        <a href="{{ route('article.editPage', ['id' => $article->id]) }}" class="btn btn-info">Edit</a>
                         @if ($article->status == "DRAFT" || $article->status == "SCHEDULED")
                         <a href="#" class="btn btn-primary">Publish</a>
                         @else
