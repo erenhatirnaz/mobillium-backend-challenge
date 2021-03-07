@@ -88,6 +88,20 @@ class Article extends Model
         return round($total, 1);
     }
 
+    public function setStatusAttribute($value)
+    {
+        if (!$this->published_at) {
+            $this->attributes["status"] = ArticleStatus::DRAFT;
+            return;
+        }
+
+        if ($this->published_at->greaterThan(Carbon::now())) {
+            $this->attributes["status"] = ArticleStatus::SCHEDULED;
+        } elseif ($this->published_at->lessThanOrEqualTo(Carbon::now())) {
+            $this->attributes["status"] = ArticleStatus::PUBLISHED;
+        }
+    }
+
     public function scopePublished($query)
     {
         return $query->where('status', ArticleStatus::PUBLISHED)

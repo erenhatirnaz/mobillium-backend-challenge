@@ -70,4 +70,13 @@ class User extends Authenticatable
 
         return ($vote) ? $vote : null;
     }
+
+    public function panelDashboardRouteName()
+    {
+        if ($this->hasRole(Roles::ADMIN)) {
+            return 'admin.dashboard';
+        } else {
+            return 'writer.dashboard';
+        }
+    }
 }

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Article;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
@@ -25,5 +28,44 @@ class ArticleController extends Controller
         }
 
         return view('article.list', compact('articles', 'panelName'));
+    }
+
+    public function createPage(Request $request)
+    {
+        $this->authorize('create', Article::class);
+
+        return view('article.create');
+    }
+
+    public function create(Request $request)
+    {
+        $this->authorize('create', Article::class);
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response("400 Bad Request!", 400);
+        }
+
+        $publishedAt = null;
+        if ($request->input('publish')) {
+            $publishedAt = Carbon::now();
+        } elseif ($request->input('scheduled-date') && $request->input('scheduled-time')) {
+            $scheduledDateTime = "{$request->input('scheduled-date')} {$request->input('scheduled-time')}";
+            $publishedAt = Carbon::createFromFormat('Y-m-d H:i', $scheduledDateTime);
+        }
+
+        $article = new Article();
+        $article->user()->associate($request->user());
+        $article->slug = Str::slug($request->input('title')) . "-" . rand(10000, 99999);
+        $article->title = $request->input('title');
+        $article->content = $request->input('content');
+        $article->published_at = $publishedAt;
+        $article->status = ""; // for trigger the Article models' status setter
+        $article->save();
+
+        return redirect()->route($request->user()->panelDashboardRouteName());
     }
 }

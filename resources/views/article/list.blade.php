@@ -17,8 +17,8 @@
     </x-slot>
 
     <div class="row">
-        <div class="col-12 d-flex justify-content-end mb-3">
-            <a href="#" class="btn btn-primary">Create New Article</a>
+        <div class="col-12 d-flex justify-content-start mb-3">
+            <a href="{{ route('article.create') }}" class="btn btn-primary">Create New Article</a>
         </div>
     </div>
 
