@@ -50,15 +50,21 @@
                     @endif
                 </td>
                 <td class="d-flex justify-content-end">
-                    <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ route('article.editPage', ['id' => $article->id]) }}" class="btn btn-info">Edit</a>
-                        @if ($article->status == "DRAFT" || $article->status == "SCHEDULED")
-                        <a href="#" class="btn btn-primary">Publish</a>
-                        @else
-                        <a href="#" class="btn btn-primary">Unpublish</a>
-                        @endif
-                        <a href="#" class="btn btn-danger">Delete</a>
-                    </div>
+                    <a href="{{ route('article.editPage', ['id' => $article->id]) }}" class="btn btn-sm btn-info">Edit</a>
+                    @if ($article->status == "DRAFT" || $article->status == "SCHEDULED")
+                    <form method="POST" action="{{ route('article.publish', ['id' => $article->id]) }}">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" href="{{ route('article.publish', ['id' => $article->id]) }}" class="btn btn-sm btn-primary">Publish</button>
+                    </form>
+                    @else
+                    <form method="POST" action="{{ route('article.unpublish', ['id' => $article->id]) }}">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" href="{{ route('article.unpublish', ['id' => $article->id]) }}" class="btn btn-sm btn-primary">Unpublish</button>
+                    </form>
+                    @endif
+                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
             @endforeach

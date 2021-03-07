@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Article;
 use Illuminate\Support\Str;
+use App\Enums\ArticleStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -92,6 +93,38 @@ class ArticleController extends Controller
 
         $article->title = $request->input('title');
         $article->content = $request->input('content');
+        $article->save();
+
+        return redirect()->route($request->user()->panelDashboardRouteName());
+    }
+
+    public function publish(int $id, Request $request)
+    {
+        $article = Article::findOrFail($id);
+        $this->authorize('update', $article);
+
+        if ($article->status == ArticleStatus::PUBLISHED) {
+            return response("400 Bad Request!", 400);
+        }
+
+        $article->published_at = Carbon::now();
+        $article->status = ""; // for trigger the Article models' status setter
+        $article->save();
+
+        return redirect()->route($request->user()->panelDashboardRouteName());
+    }
+
+    public function unpublish(int $id, Request $request)
+    {
+        $article = Article::findOrFail($id);
+        $this->authorize('update', $article);
+
+        if ($article->status !== ArticleStatus::PUBLISHED) {
+            return response("400 Bad Request!", 400);
+        }
+
+        $article->published_at = null;
+        $article->status = ""; // for trigger the Article models' status setter
         $article->save();
 
         return redirect()->route($request->user()->panelDashboardRouteName());

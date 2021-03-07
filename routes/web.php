@@ -29,14 +29,10 @@ Route::name('article.')->middleware('auth')->group(function () {
     Route::get('/articles/{id}/edit', [ArticleController::class, 'editPage'])->name('editPage');
     Route::put('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('edit');
 
-    Route::put('/article/{id}/publish', function () {
-        return response("501 Not Implemented!", 501);
-    })->name('publish');
-    Route::put('/article/{id}/unpublish', function () {
-        return response("501 Not Implemented!", 501);
-    })->name('unpublish');
+    Route::put('/articles/{id}/publish', [ArticleController::class, 'publish'])->name('publish');
+    Route::put('/articles/{id}/unpublish', [ArticleController::class, 'unpublish'])->name('unpublish');
 
-    Route::delete('/article/{id}/delete', function () {
+    Route::delete('/articles/{id}/delete', function () {
         return response("501 Not Implemented!", 501);
     })->name('delete');
 });
