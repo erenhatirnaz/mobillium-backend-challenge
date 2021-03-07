@@ -129,4 +129,14 @@ class ArticleController extends Controller
 
         return redirect()->route($request->user()->panelDashboardRouteName());
     }
+
+    public function delete(int $id, Request $request)
+    {
+        $article = Article::findOrFail($id);
+        $this->authorize('delete', $article);
+
+        $article->delete();
+
+        return redirect()->route($request->user()->panelDashboardRouteName());
+    }
 }

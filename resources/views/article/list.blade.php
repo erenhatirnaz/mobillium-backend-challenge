@@ -64,7 +64,11 @@
                         <button type="submit" href="{{ route('article.unpublish', ['id' => $article->id]) }}" class="btn btn-sm btn-primary">Unpublish</button>
                     </form>
                     @endif
-                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                    <form method="POST" action="{{ route('article.delete', ['id' => $article->id]) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" href="{{ route('article.delete', ['id' => $article->id]) }}" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
             @endforeach

@@ -32,9 +32,7 @@ Route::name('article.')->middleware('auth')->group(function () {
     Route::put('/articles/{id}/publish', [ArticleController::class, 'publish'])->name('publish');
     Route::put('/articles/{id}/unpublish', [ArticleController::class, 'unpublish'])->name('unpublish');
 
-    Route::delete('/articles/{id}/delete', function () {
-        return response("501 Not Implemented!", 501);
-    })->name('delete');
+    Route::delete('/articles/{id}/delete', [ArticleController::class, 'delete'])->name('delete');
 });
 
 Route::name('vote.')->middleware(['auth'])->group(function () {
