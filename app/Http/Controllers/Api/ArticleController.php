@@ -32,10 +32,24 @@ class ArticleController extends Controller
     public function create(Request $request)
     {
         if (!$request->user()->can('create', Article::class)) {
-            return response()->json(['code' => 403, 'message' => "This action is unauthorized!"])->setStatusCode(403);
+            return response()->json([
+                'code' => 403,
+                'message' => "This action is unauthorized!"
+            ])->setStatusCode(403);
         }
 
-        $this->validateArticleRequest($request);
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            $errorOneLine = join(" ", $validator->errors()->all());
+            return response()->json([
+                'code' => 422,
+                'message' => $errorOneLine
+            ])->setStatusCode(422);
+        }
 
         $publishedAt = Carbon::now();
         if ($request->input('published_at')) {
@@ -56,9 +70,32 @@ class ArticleController extends Controller
 
     public function update(int $id, Request $request)
     {
-        $article = $this->getArticleOrFail($id);
-        $this->userCanUpdate($article, $request->user());
-        $this->validateArticleRequest($request);
+        $article = Article::find($id);
+        if (!$article) {
+            return response()->json([
+                'code' => 404,
+                'message' => "Not found!"
+            ])->setStatusCode(404);
+        }
+
+        if (!$request->user()->can('update', $article)) {
+            return response()->json([
+                'code' => 403,
+                'message' => "This action is unauthorized!"
+            ])->setStatusCode(403);
+        }
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            $errorOneLine = join(" ", $validator->errors()->all());
+            return response()->json([
+                'code' => 422,
+                'message' => $errorOneLine
+            ])->setStatusCode(422);
+        }
 
         $article->title = $request->input('title');
         $article->content = $request->input('content');
@@ -69,8 +106,19 @@ class ArticleController extends Controller
 
     public function publish(int $id, Request $request)
     {
-        $article = $this->getArticleOrFail($id);
-        $this->userCanUpdate($article, $request->user());
+        $article = Article::find($id);
+        if (!$article) {
+            return response()->json([
+                'code' => 404,
+                'message' => "Not found!"
+            ])->setStatusCode(404);
+        }
+        if (!$request->user()->can('update', $article)) {
+            return response()->json([
+                'code' => 403,
+                'message' => "This action is unauthorized!"
+            ])->setStatusCode(403);
+        }
 
         if ($article->status == ArticleStatus::PUBLISHED) {
             return response()->json([
@@ -88,8 +136,19 @@ class ArticleController extends Controller
 
     public function unpublish(int $id, Request $request)
     {
-        $article = $this->getArticleOrFail($id);
-        $this->userCanUpdate($article, $request->user());
+        $article = Article::find($id);
+        if (!$article) {
+            return response()->json([
+                'code' => 404,
+                'message' => "Not found!"
+            ])->setStatusCode(404);
+        }
+        if (!$request->user()->can('update', $article)) {
+            return response()->json([
+                'code' => 403,
+                'message' => "This action is unauthorized!"
+            ])->setStatusCode(403);
+        }
 
         if ($article->status !== ArticleStatus::PUBLISHED) {
             return response()->json([
@@ -107,7 +166,13 @@ class ArticleController extends Controller
 
     public function delete(int $id, Request $request)
     {
-        $article = $this->getArticleOrFail($id);
+        $article = Article::find($id);
+        if (!$article) {
+            return response()->json([
+                'code' => 404,
+                'message' => "Not found!"
+            ])->setStatusCode(404);
+        }
         if (!$request->user()->can('delete', $article)) {
             return response()->json([
                 'code' => 403,
@@ -117,45 +182,5 @@ class ArticleController extends Controller
 
         $article->delete();
         return response("", 204);
-    }
-
-    private function getArticleOrFail(int $id)
-    {
-        $article = Article::find($id);
-
-        if (!$article) {
-            return response()->json([
-                'code' => 404,
-                'message' => "Not found!"
-            ])->setStatusCode(404);
-        }
-
-        return $article;
-    }
-
-    private function userCanUpdate(Article $article, $user)
-    {
-        if (!$user->can('update', $article)) {
-            return response()->json([
-                'code' => 403,
-                'message' => "This action is unauthorized!"
-            ])->setStatusCode(403);
-        }
-    }
-
-    private function validateArticleRequest($request)
-    {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
-            'content' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            $errorOneLine = join(" ", $validator->errors()->all());
-            return response()->json([
-                'code' => 422,
-                'message' => $errorOneLine
-            ])->setStatusCode(422);
-        }
     }
 }
