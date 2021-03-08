@@ -31,7 +31,7 @@ class ArticleFactory extends Factory
             'user_id' => User::factory(),
             'slug' => Str::slug($title) . "-" . $this->faker->randomNumber(6),
             'title' => $title,
-            'content' => implode("<br/><br/>", $this->faker->paragraphs),
+            'content' => implode(" ", $this->faker->paragraphs),
             'published_at' => Carbon::now(),
             'status' => ArticleStatus::PUBLISHED,
         ];
