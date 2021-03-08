@@ -42,7 +42,7 @@ class Article extends Model
 
     public function getContentSummaryAttribute()
     {
-        return Str::of($this->content)->explode('<br/><br/>')[0];
+        return Str::of($this->content)->explode('.')->take(4)->join('.') . " >>>";
     }
 
     public function getLinkAttribute()
