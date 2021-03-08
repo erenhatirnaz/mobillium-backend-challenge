@@ -34,9 +34,9 @@ class LoginController extends Controller
         $oauthTokenResponse = Route::dispatch($oauthTokenRequest);
 
         if ($oauthTokenResponse->getStatusCode() == 401) {
-            return response()->json()->setData($oauthTokenResponse->getContent())->setStatusCode(401);
+            return response()->json(json_decode($oauthTokenResponse->getContent()))->setStatusCode(401);
         }
 
-        return response()->json()->setData($oauthTokenResponse->getContent())->setStatusCode(200);
+        return response()->json(json_decode($oauthTokenResponse->getContent()))->setStatusCode(200);
     }
 }
