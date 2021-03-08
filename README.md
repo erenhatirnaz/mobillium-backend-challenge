@@ -1,5 +1,6 @@
-# Mobillium Back-End Challange
-Mobillium şirketinin back-end developer'lar için istediği temel bir blog sistemi.
+# Mobillium Back-End Challenge
+Mid-Level Back-End Developer pozisyonu için Mobillium şirketi tarafından istenen
+bir blog sistemi. PHP ve Laravel ekosisteminin birçok kısmını kapsıyor.
 
 Özellikler:
 * 📝 Makaleler için basit CRUD (create, read, update, delete) işlemler,
@@ -250,7 +251,7 @@ $ curl --request DELETE \
   --header 'Authorization: Bearer [BURAYA ACCESS_TOKEN GELECEK]'
 ```
 ## Karşılaştırma
-Gönderilen challange dökümanındaki görevleri yaptığım yerler:
+Gönderilen challenge dökümanındaki görevleri yaptığım yerler:
 
 * "*It should have roles of admin, moderator, writer and reader.*" \
   "*Every user who is a member of the system should have a basic reader role.*" \
