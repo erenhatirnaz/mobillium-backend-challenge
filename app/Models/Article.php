@@ -54,7 +54,7 @@ class Article extends Model
     {
         $nextArticle = self::without(['votes', 'user'])->where('status', ArticleStatus::PUBLISHED)
                                                        ->where('published_at', '>', $this->published_at)
-                                                       ->orderBy('published_At')->get()->first();
+                                                       ->orderBy('published_at')->get()->first();
 
         return ($nextArticle) ? $nextArticle->link : null;
     }
@@ -63,7 +63,7 @@ class Article extends Model
     {
         $previousArticle = self::without(['votes', 'user'])->where('status', ArticleStatus::PUBLISHED)
                                                            ->where('published_at', '<', $this->published_at)
-                                                           ->orderBy('published_At', 'DESC')->get()->first();
+                                                           ->orderBy('published_at', 'DESC')->get()->first();
 
         return ($previousArticle) ? $previousArticle->link : null;
     }
