@@ -16,7 +16,7 @@ class HomepageTest extends DuskTestCase
     {
         $this->browse(function ($browser) {
             $browser->visit(new HomePage())
-                    ->assertSee('Mobillium Back-End Challange')
+                    ->assertSee('Mobillium Back-End Challenge')
                     ->assertSeeLink('Login')
                     ->assertSeeLink('Register');
         });

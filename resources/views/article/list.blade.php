@@ -1,7 +1,7 @@
 <x-layout>
     <x-slot name="title">
         {{ $panelName }}
-        - {{ config('app.name', 'Mobillium Back-End Challange') }}
+        - {{ config('app.name', 'Mobillium Back-End Challenge') }}
     </x-slot>
 
     <x-slot name="panelHome">

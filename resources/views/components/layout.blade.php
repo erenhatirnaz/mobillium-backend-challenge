@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $title ?? config('app.name', 'Mobillium Back-end Challange') }}</title>
+    <title>{{ $title ?? config('app.name', 'Mobillium Back-end Challenge') }}</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand font-weight-bolder" href="{{ $panelHome ?? route('home') }}">
-                {{ $panelName ?? config('app.name', 'Mobillium Back-end Challange') }}
+                {{ $panelName ?? config('app.name', 'Mobillium Back-end Challenge') }}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
                 <span class="navbar-toggler-icon"></span>

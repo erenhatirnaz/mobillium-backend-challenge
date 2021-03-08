@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot name="title">
-        {{ $article->title }} - {{ config('app.name', 'Mobillium Back-end Challange') }}
+        {{ $article->title }} - {{ config('app.name', 'Mobillium Back-end Challenge') }}
     </x-slot>
 
     <div class="row justify-content-center">
